@@ -11,6 +11,8 @@
     "game.PlayerMoveC2SMixin",
     "game.ClientPlayNetworkHandlerMixin",
     "game.EntityVelocityUpdateS2CPacketAccessor",
+    "net.BlockedServersMixin",
+    "game.ClientPacketListenerMixin",
     "input.KeyboardMixin"
   ],
   "injectors": {
