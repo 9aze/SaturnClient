@@ -9,6 +9,8 @@
     "hud.InGameHudMixin",
     "game.MinecraftClientMixin",
     "game.PlayerMoveC2SMixin",
+    "game.ClientPlayNetworkHandlerMixin",
+    "game.EntityVelocityUpdateS2CPacketAccessor",
     "input.KeyboardMixin"
   ],
   "injectors": {
