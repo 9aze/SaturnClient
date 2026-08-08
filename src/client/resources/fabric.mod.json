@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "saturnclient",
+  "name": "SaturnClient",
+  "version": "1.0-SNAPSHOT",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "accessWidener" : "saturnclient.accesswidener",
+  "entrypoints": {
+    "main": [
+      "lat.saturn.SaturnClient"
+    ]
+  },
+  "mixins": [
+    "saturnclient.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "1.21.4"
+  }
+
+}
