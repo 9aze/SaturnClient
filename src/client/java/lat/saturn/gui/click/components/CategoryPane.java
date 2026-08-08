@@ -5,6 +5,7 @@ import lat.saturn.api.manager.module.Category;
 import lat.saturn.api.manager.module.Module;
 import lat.saturn.api.util.IMinecraft;
 import lat.saturn.api.util.render.RenderUtils;
+import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
 import net.minecraft.client.gui.DrawContext;
 
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CategoryPane implements IMinecraft {
+
     private final Category category;
     private double x, y, width;
     private boolean open = true;
@@ -26,34 +28,54 @@ public class CategoryPane implements IMinecraft {
         this.y = y;
         this.width = width;
 
-        double moduleY = y + titleHeight;
+        double moduleY = y + titleHeight + 3;
         for (Module module : Managers.MODULE_MANAGER.getByCategory(category)) {
-            moduleButtons.add(new ModuleButton(module, x, moduleY, width));
-            moduleY += titleHeight;
+            ModuleButton button = new ModuleButton(module, x + 2, moduleY, width - 4);
+            moduleButtons.add(button);
+            moduleY += button.getHeight() + 2;
         }
     }
 
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        // render title
-        RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y, width, titleHeight);
-        RenderUtils.drawString(context, category.getName(), new Color(255, 255, 255, 255), (int) x + 4, (int) (y + 3), true);
+    private double getModuleAreaHeight() {
+        if (moduleButtons.isEmpty()) return 0;
 
-        // render module btns
-        if (open) {
-            double moduleY = y + titleHeight;
-            for (ModuleButton moduleButton : moduleButtons) {
-                moduleButton.setPos(x, moduleY);
-                moduleButton.render(context, mouseX, mouseY, delta);
-                moduleY += moduleButton.getHeight();
-            }
+        double height = 3;
+        for (ModuleButton moduleButton : moduleButtons) {
+            height += moduleButton.getHeight() + 2;
         }
+
+        return height;
+    }
+
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        Color outlineColor = ColorModule.INSTANCE.clientColor.getValue();
+        double totalHeight = titleHeight + (open ? getModuleAreaHeight() : 0);
+
+        RenderUtils.drawRoundedRect(context.getMatrices(), new Color(17, 17, 17), x, y, width, titleHeight, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 0f, 0f, 12);
+        RenderUtils.drawCustomString(context, category.getName(), new Color(255, 255, 255, 255), (int) x + 4, (int) (y-1 ), 11);
+
+        if (open && !moduleButtons.isEmpty()) {
+            double areaHeight = getModuleAreaHeight();
+            RenderUtils.drawRoundedRect(context.getMatrices(), new Color(17, 17, 17), x, y + titleHeight, width, areaHeight, 0f, 0f, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 12);
+
+            double moduleY = y + titleHeight + 3;
+            for (ModuleButton moduleButton : moduleButtons) {
+                moduleButton.setPos(x + 2, moduleY);
+                moduleButton.render(context, mouseX, mouseY, delta);
+                moduleY += moduleButton.getHeight() + 2;
+            }
+
+            RenderUtils.drawRect(context.getMatrices(), outlineColor, x, y + titleHeight, width, 1);
+        }
+
+        RenderUtils.drawRoundedOutline(context.getMatrices(), outlineColor, x, y, width, totalHeight, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 1f, 12);
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
         if (isHoveringTitle(mouseX, mouseY)) {
-            if (button == 1) { //right click -> open/close
+            if (button == 1) {
                 open = !open;
-            } else if (button == 0) { //left click -> dragging
+            } else if (button == 0) {
                 dragging = true;
                 dragX = mouseX - x;
                 dragY = mouseY - y;

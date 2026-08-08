@@ -7,6 +7,7 @@ import lat.saturn.api.setting.settings.DoubleSetting;
 import lat.saturn.api.setting.settings.IntSetting;
 import lat.saturn.api.util.IMinecraft;
 import lat.saturn.api.util.render.RenderUtils;
+import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
 import lat.saturn.gui.click.components.settings.BoolSettingComponent;
 import lat.saturn.gui.click.components.settings.ColorSettingComponent;
@@ -52,11 +53,9 @@ public class ModuleButton implements IMinecraft {
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        if(module.isToggled()) {
-            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(180), x, y, width, titleHeight);
-        } else {
-            RenderUtils.drawRect(context.getMatrices(), new Color(20,20,20, 180), x, y, width, titleHeight);
-        }
+        Color bgColor = module.isToggled() ? ColorModule.INSTANCE.clientColor.getValue() : new Color(17, 17, 17);
+
+        RenderUtils.drawRoundedRect(context.getMatrices(), bgColor, x, y, width, titleHeight, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
 
         height = titleHeight; // Start with just the title height
 
@@ -72,7 +71,7 @@ public class ModuleButton implements IMinecraft {
             height = settingsY - y;
         }
 
-        RenderUtils.drawString(context, module.getName(), new Color(255, 255, 255, 255), (int) x+4, (int) (y+2), true);
+        RenderUtils.drawCustomString(context, module.getName(), new Color(255, 255, 255, 255), (int) x+2, (int) (y-1), 11);
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
