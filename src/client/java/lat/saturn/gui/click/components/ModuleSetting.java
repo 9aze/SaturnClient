@@ -3,18 +3,17 @@ package lat.saturn.gui.click.components;
 import lat.saturn.api.setting.Setting;
 import lat.saturn.api.util.IMinecraft;
 import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.client.gui.DrawContext;
 
 public abstract class ModuleSetting<T extends Setting<?, ?>> implements IMinecraft {
+    public final T setting;
+
     @Getter
-    protected final T setting;
+    public double x, y;
     @Getter
-    protected double x, y;
-    @Setter
-    protected double width;
+    public double width;
     @Getter
-    protected double height;
+    public double height;
 
     public ModuleSetting(T setting, double x, double y, double width) {
         this.setting = setting;
@@ -44,4 +43,8 @@ public abstract class ModuleSetting<T extends Setting<?, ?>> implements IMinecra
     public void mouseScrolled(double mouseX, double mouseY, double x, double y) {}
     public void keyPressed(int keyCode) {}
     public void charTyped(char chr, int modifiers) {}
+
+    public T getSetting() {
+        return setting;
+    }
 }

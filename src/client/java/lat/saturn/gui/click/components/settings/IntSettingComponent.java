@@ -16,7 +16,7 @@ public class IntSettingComponent extends ModuleSetting<IntSetting> {
     public IntSettingComponent(IntSetting setting, double x, double y, double width) {
         super(setting, x, y, width);
         this.setting = setting;
-        this.height = mc.textRenderer.fontHeight + 2;
+        this.height = mc.textRenderer.fontHeight + 4;
     }
 
     @Override
@@ -28,11 +28,10 @@ public class IntSettingComponent extends ModuleSetting<IntSetting> {
         ratio = Math.max(0, Math.min(1, ratio));
         int filledWidth = (int)(width * ratio);
 
-        RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y, filledWidth, height);
-        RenderUtils.drawRect(context.getMatrices(), new Color(0, 0, 0, 0), x, y, width, height);
+        RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y+height-1, filledWidth, 1);
 
-        RenderUtils.drawString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + current, Color.WHITE, (int)(x + 4),
-                (int)(y + 0.5f + (height / 2) - (mc.textRenderer.fontHeight / 2)), true);
+        RenderUtils.drawCustomString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + current, Color.WHITE, (int)(x + 4),
+                (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)), 11);
     }
 
     @Override
