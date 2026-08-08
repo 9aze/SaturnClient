@@ -1,11 +1,15 @@
 package lat.saturn.gui.click;
 
 import lat.saturn.api.manager.module.Category;
+import lat.saturn.api.util.render.RenderUtils;
+import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.gui.click.components.CategoryPane;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ClickGuiScreen extends Screen {
@@ -30,6 +34,8 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        RenderUtils.drawRect(context.getMatrices(), ClickGUIModule.INSTANCE.bgColor.getValue(), 0, 0, MinecraftClient.getInstance().getWindow().getWidth(), MinecraftClient.getInstance().getWindow().getHeight());
+
         for(CategoryPane pane : panes) {
             pane.render(context, mouseX, mouseY, delta);
         }
