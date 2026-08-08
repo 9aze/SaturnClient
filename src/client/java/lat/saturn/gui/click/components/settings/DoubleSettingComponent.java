@@ -10,7 +10,7 @@ import net.minecraft.util.Formatting;
 
 import java.awt.*;
 
-public class DoubleSettingComponent extends ModuleSetting<DoubleSetting> {
+public class DoubleSettingComponent extends ModuleSetting {
     private final DoubleSetting setting;
     private boolean dragging = false;
 
@@ -22,20 +22,16 @@ public class DoubleSettingComponent extends ModuleSetting<DoubleSetting> {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
-        double min = setting.getMin();
-        double max = setting.getMax();
-        double current = setting.getValue();
-        double ratio = (current - min) / (max - min);
-        ratio = Math.max(0, Math.min(1, ratio));
-        int filledWidth = (int)(width * ratio);
+        double min = setting.getMin(), max = setting.getMax(), current = setting.getValue();
+        double ratio = Math.max(0, Math.min(1, (current - min) / (max - min)));
+        int sliderWidth = (int) width - 4, filledWidth = (int) (sliderWidth * ratio);
 
-        if (!ClickGUIModule.INSTANCE.thickSliders.getValue()) { // in my defense for this one i copied it from the other one
-            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y + height - 1, filledWidth, 1);
-        } else {
-            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y, filledWidth, height);
-        }
-        RenderUtils.drawCustomString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + Math.floor(current * 100) / 100 , Color.WHITE, (int)(x + 4),
-                (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)), 11);
+        if (!ClickGUIModule.INSTANCE.thickSliders.getValue())
+            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x + 2, y + height - 1, filledWidth, 1);
+        else
+            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x + 2, y, filledWidth, height);
+
+        RenderUtils.drawCustomString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + Math.floor(current * 100) / 100, Color.WHITE, (int) (x + 4), (int) (y + 0.5f + height / 2 - RenderUtils.customFontHeight(11) / 2), 11);
     }
 
     @Override
@@ -48,9 +44,7 @@ public class DoubleSettingComponent extends ModuleSetting<DoubleSetting> {
 
     @Override
     public void mouseDragged(double mouseX, double mouseY, int button) {
-        if (dragging) {
-            updateValue((int) mouseX);
-        }
+        if (dragging) updateValue((int) mouseX);
     }
 
     @Override
@@ -59,10 +53,8 @@ public class DoubleSettingComponent extends ModuleSetting<DoubleSetting> {
     }
 
     private void updateValue(int mouseX) {
-        double ratio = (mouseX - x) / width;
-        ratio = Math.max(0, Math.min(1, ratio));
-        double newValue = setting.getMin() + ratio * (setting.getMax() - setting.getMin());
-        setting.setValue(newValue);
+        double ratio = Math.max(0, Math.min(1, (mouseX - x - 2) / (width - 4)));
+        setting.setValue(setting.getMin() + ratio * (setting.getMax() - setting.getMin()));
     }
 
     private boolean isMouseOver(int mouseX, int mouseY) {

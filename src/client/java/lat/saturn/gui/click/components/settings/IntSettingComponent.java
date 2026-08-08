@@ -10,7 +10,7 @@ import net.minecraft.util.Formatting;
 
 import java.awt.*;
 
-public class IntSettingComponent extends ModuleSetting<IntSetting> {
+public class IntSettingComponent extends ModuleSetting {
     private final IntSetting setting;
     private boolean dragging = false;
 
@@ -22,19 +22,16 @@ public class IntSettingComponent extends ModuleSetting<IntSetting> {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
-        int min = setting.getMin();
-        int max = setting.getMax();
-        int current = setting.getValue();
-        float ratio = (current - min) / (float)(max - min);
-        ratio = Math.max(0, Math.min(1, ratio));
-        int filledWidth = (int)(width * ratio);
-        if (!ClickGUIModule.INSTANCE.thickSliders.getValue()) { // was lowk lazy to reorder so i just stuck a ! at hte start
-            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y + height - 1, filledWidth, 1);
-        } else {
-            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y, filledWidth, height);
-        }
-        RenderUtils.drawCustomString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + current, Color.WHITE, (int)(x + 4),
-                (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)), 11);
+        int min = setting.getMin(), max = setting.getMax(), current = setting.getValue();
+        float ratio = Math.max(0, Math.min(1, (current - min) / (float) (max - min)));
+        int sliderWidth = (int) width - 4, filledWidth = (int) (sliderWidth * ratio);
+
+        if (!ClickGUIModule.INSTANCE.thickSliders.getValue())
+            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x + 2, y + height - 1, filledWidth, 1);
+        else
+            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x + 2, y, filledWidth, height);
+
+        RenderUtils.drawCustomString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + current, Color.WHITE, (int) (x + 4), (int) (y + 0.5f + height / 2 - RenderUtils.customFontHeight(11) / 2), 11);
     }
 
     @Override
@@ -47,9 +44,7 @@ public class IntSettingComponent extends ModuleSetting<IntSetting> {
 
     @Override
     public void mouseDragged(double mouseX, double mouseY, int button) {
-        if (dragging) {
-            updateValue((int) mouseX);
-        }
+        if (dragging) updateValue((int) mouseX);
     }
 
     @Override
@@ -58,10 +53,8 @@ public class IntSettingComponent extends ModuleSetting<IntSetting> {
     }
 
     private void updateValue(int mouseX) {
-        float ratio = (float) ((mouseX - x) / width);
-        ratio = Math.max(0, Math.min(1, ratio));
-        int newValue = setting.getMin() + Math.round(ratio * (setting.getMax() - setting.getMin()));
-        setting.setValue(newValue);
+        double ratio = Math.max(0, Math.min(1, (mouseX - x - 2) / (width - 4)));
+        setting.setValue(setting.getMin() + (int) Math.round(ratio * (setting.getMax() - setting.getMin())));
     }
 
     private boolean isMouseOver(int mouseX, int mouseY) {

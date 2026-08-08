@@ -50,9 +50,30 @@ public class ModuleButton implements IMinecraft {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         Color bgColor = module.isToggled() ? ColorModule.INSTANCE.clientColor.getValue() : new Color(17, 17, 17);
 
-        RenderUtils.drawRoundedRect(context.getMatrices(), bgColor, x, y, width, titleHeight, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
-
-        height = titleHeight; // Start with just the title height
+        if(!open) {
+            RenderUtils.drawRoundedRect(
+                    context.getMatrices(),
+                    bgColor,
+                    x, y, width, titleHeight,
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    12
+            );
+        } else {
+            RenderUtils.drawRoundedRect(
+                    context.getMatrices(),
+                    bgColor,
+                    x+1, y+1, width-2, titleHeight-1,
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    12
+            );
+        }
+        height = titleHeight;
 
         if (open && !moduleSettings.isEmpty()) {
             double settingsY = y + titleHeight;
@@ -63,10 +84,33 @@ public class ModuleButton implements IMinecraft {
                 settingsY += setting.getHeight();
             }
 
-            height = settingsY - y;
+            height = settingsY - y + 2;
+
+            RenderUtils.drawRoundedOutline(
+                    context.getMatrices(),
+                    ColorModule.INSTANCE.clientColor.getValue(),
+
+
+                    x+1, y+1, width-2, height-1,
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
+                    1.0f,
+                    12.0f
+            );
         }
 
-        RenderUtils.drawCustomString(context, module.getName(), new Color(255, 255, 255, 255), (int) x+2, (int) (y-1), 11);
+
+
+        RenderUtils.drawCustomString(
+                context,
+                module.getName(),
+                new Color(255, 255, 255, 255),
+                (int) x + 2,
+                (int) (y - 1),
+                11
+        );
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
