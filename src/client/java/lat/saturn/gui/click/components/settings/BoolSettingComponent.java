@@ -20,7 +20,7 @@ public class BoolSettingComponent extends ModuleSetting<BoolSetting> {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
-        RenderUtils.drawCustomString(context, setting.getName(), Color.WHITE, (int)(x + 4),
+        RenderUtils.drawCustomString(context, setting.getValue() ? setting.getName() : Formatting.GRAY + setting.getName(), Color.WHITE, (int)(x + 4),
                 (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)), 11);
 
         int boxSize = 8;

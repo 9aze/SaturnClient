@@ -2,15 +2,13 @@ package lat.saturn.gui.click.components.settings;
 
 import lat.saturn.api.setting.settings.DoubleSetting;
 import lat.saturn.api.util.render.RenderUtils;
+import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
-import lat.saturn.feature.module.client.OldSettingsModule;
 import lat.saturn.gui.click.components.ModuleSetting;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Formatting;
 
 import java.awt.*;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 public class DoubleSettingComponent extends ModuleSetting<DoubleSetting> {
     private final DoubleSetting setting;
@@ -31,10 +29,10 @@ public class DoubleSettingComponent extends ModuleSetting<DoubleSetting> {
         ratio = Math.max(0, Math.min(1, ratio));
         int filledWidth = (int)(width * ratio);
 
-        if (!OldSettingsModule.INSTANCE.isToggled()) { // in my defense for this one i copied it from the other one
+        if (!ClickGUIModule.INSTANCE.thickSliders.getValue()) { // in my defense for this one i copied it from the other one
             RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y + height - 1, filledWidth, 1);
         } else {
-            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue().brighter(), x, y, filledWidth, height);
+            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y, filledWidth, height);
         }
         RenderUtils.drawCustomString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + Math.floor(current * 100) / 100 , Color.WHITE, (int)(x + 4),
                 (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)), 11);

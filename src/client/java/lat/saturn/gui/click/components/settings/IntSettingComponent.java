@@ -2,8 +2,8 @@ package lat.saturn.gui.click.components.settings;
 
 import lat.saturn.api.setting.settings.IntSetting;
 import lat.saturn.api.util.render.RenderUtils;
+import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
-import lat.saturn.feature.module.client.OldSettingsModule;
 import lat.saturn.gui.click.components.ModuleSetting;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Formatting;
@@ -28,10 +28,10 @@ public class IntSettingComponent extends ModuleSetting<IntSetting> {
         float ratio = (current - min) / (float)(max - min);
         ratio = Math.max(0, Math.min(1, ratio));
         int filledWidth = (int)(width * ratio);
-        if (!OldSettingsModule.INSTANCE.isToggled()) { // was lowk lazy to reorder so i just stuck a ! at hte start
+        if (!ClickGUIModule.INSTANCE.thickSliders.getValue()) { // was lowk lazy to reorder so i just stuck a ! at hte start
             RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y + height - 1, filledWidth, 1);
         } else {
-            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue().brighter(), x, y, filledWidth, height);
+            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x, y, filledWidth, height);
         }
         RenderUtils.drawCustomString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + current, Color.WHITE, (int)(x + 4),
                 (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)), 11);
