@@ -79,5 +79,7 @@ public class ColorSetting extends Setting<Color, ColorSetting> {
         return allowAlpha ? RenderUtils.setAlpha(rainbowColor, alpha) : rainbowColor;
     }
 
+    public boolean isRainbow() {return rainbow;}
 
+    public boolean isSync() {return sync;}
 }

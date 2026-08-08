@@ -1,12 +1,13 @@
 package lat.saturn;
 
 import lat.saturn.api.manager.Managers;
+import lat.saturn.api.manager.config.ConfigManager;
 import net.fabricmc.api.ModInitializer;
 import meteordevelopment.orbit.EventBus;
 import meteordevelopment.orbit.IEventBus;
+import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import lat.saturn.BuildConstants;
 
 import java.lang.invoke.MethodHandles;
 
@@ -20,21 +21,31 @@ public class SaturnClient implements ModInitializer {
 
     public static SaturnClient INSTANCE;
     public static Managers MANAGERS;
-
+    public static ConfigManager CONFIG;
 
     @Override
     public void onInitialize() {
-        long start_time = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
+        INSTANCE = this;
+
         LOGGER.info("Initialization process for {} has started.", NAME);
 
         ((EventBus) EVENT_BUS).registerLambdaFactory("lat.saturn",
-                (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
+                (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(
+                        null, klass, MethodHandles.lookup()
+                ));
 
         MANAGERS = new Managers();
         MANAGERS.init();
 
+        CONFIG = new ConfigManager();
+        MinecraftClient.getInstance().execute(() -> CONFIG.load());
+
         EVENT_BUS.subscribe(this);
 
-        LOGGER.info(String.format("Initialization process for %s has finished in %sms.", NAME, System.currentTimeMillis() - start_time));
+        Runtime.getRuntime().addShutdownHook(new Thread(CONFIG::save));
+
+        LOGGER.info("Initialization process for {} has finished in {}ms.",
+                NAME, System.currentTimeMillis() - startTime);
     }
 }
