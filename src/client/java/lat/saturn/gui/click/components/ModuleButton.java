@@ -1,18 +1,12 @@
 package lat.saturn.gui.click.components;
 
 import lat.saturn.api.manager.module.Module;
-import lat.saturn.api.setting.settings.BoolSetting;
-import lat.saturn.api.setting.settings.ColorSetting;
-import lat.saturn.api.setting.settings.DoubleSetting;
-import lat.saturn.api.setting.settings.IntSetting;
+import lat.saturn.api.setting.settings.*;
 import lat.saturn.api.util.IMinecraft;
 import lat.saturn.api.util.render.RenderUtils;
 import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
-import lat.saturn.gui.click.components.settings.BoolSettingComponent;
-import lat.saturn.gui.click.components.settings.ColorSettingComponent;
-import lat.saturn.gui.click.components.settings.DoubleSettingComponent;
-import lat.saturn.gui.click.components.settings.IntSettingComponent;
+import lat.saturn.gui.click.components.settings.*;
 import lombok.Getter;
 import net.minecraft.client.gui.DrawContext;
 
@@ -43,6 +37,7 @@ public class ModuleButton implements IMinecraft {
                 case BoolSetting boolSetting -> new BoolSettingComponent(boolSetting, x, y, width);
                 case DoubleSetting doubleSetting -> new DoubleSettingComponent(doubleSetting, x, y, width);
                 case IntSetting intSetting -> new IntSettingComponent(intSetting, x, y, width);
+                case EnumSetting enumSetting -> new EnumSettingComponent(enumSetting, x, y, width);
                 case null, default -> null;
             };
 

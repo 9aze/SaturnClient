@@ -34,4 +34,6 @@ public class EnumSetting<T extends Enum<T>> extends Setting<Enum<T>, EnumSetting
         }
         return false;
     }
+
+    public void setNextValue() { index = (index + 1) % values.length; value = values[index]; }
 }
