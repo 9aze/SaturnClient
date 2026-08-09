@@ -112,6 +112,22 @@ public class CategoryPane implements IMinecraft {
         }
     }
 
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (open) {
+            for (ModuleButton moduleButton : moduleButtons) {
+                moduleButton.keyPressed(keyCode, scanCode, modifiers);
+            }
+        }
+    }
+
+    public void charTyped(char chr, int modifiers) {
+        if (open) {
+            for (ModuleButton moduleButton : moduleButtons) {
+                moduleButton.charTyped(chr, modifiers);
+            }
+        }
+    }
+
     public boolean isHoveringTitle(double mx, double my) {
         return mx >= x && mx <= x + width && my >= y && my <= y + titleHeight;
     }

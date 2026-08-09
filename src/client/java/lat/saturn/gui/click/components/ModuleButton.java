@@ -38,6 +38,7 @@ public class ModuleButton implements IMinecraft {
                 case DoubleSetting doubleSetting -> new DoubleSettingComponent(doubleSetting, x, y, width);
                 case IntSetting intSetting -> new IntSettingComponent(intSetting, x, y, width);
                 case EnumSetting enumSetting -> new EnumSettingComponent(enumSetting, x, y, width);
+                case StringSetting stringSetting -> new StringSettingComponent(stringSetting, x, y, width);
                 case null, default -> null;
             };
 
@@ -93,10 +94,13 @@ public class ModuleButton implements IMinecraft {
         }
 
         if (open) {
+            boolean handled = false;
             for (ModuleSetting<?> setting : moduleSettings) {
-                if (setting.isHovering(mouseX, mouseY)) {
+                if (!handled && setting.isHovering(mouseX, mouseY)) {
                     setting.mouseClicked((int) mouseX, (int) mouseY, button);
-                    break;
+                    handled = true;
+                } else if (setting instanceof StringSettingComponent stringSetting) {
+                    stringSetting.mouseClicked((int) mouseX, (int) mouseY, button);
                 }
             }
         }
@@ -125,5 +129,25 @@ public class ModuleButton implements IMinecraft {
 
     public boolean isHoveringTitle(double mx, double my) {
         return mx >= x && mx <= x + width && my >= y && my <= y + titleHeight;
+    }
+
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (open) {
+            for (ModuleSetting<?> setting : moduleSettings) {
+                if (setting instanceof StringSettingComponent stringSetting) {
+                    stringSetting.keyPressed(keyCode, scanCode, modifiers);
+                }
+            }
+        }
+    }
+
+    public void charTyped(char chr, int modifiers) {
+        if (open) {
+            for (ModuleSetting<?> setting : moduleSettings) {
+                if (setting instanceof StringSettingComponent stringSetting) {
+                    stringSetting.charTyped(chr, modifiers);
+                }
+            }
+        }
     }
 }

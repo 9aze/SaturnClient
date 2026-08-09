@@ -1,6 +1,7 @@
 package lat.saturn.mixin.input;
 
 import lat.saturn.SaturnClient;
+import lat.saturn.api.event.input.EventChar;
 import lat.saturn.api.event.input.EventKey;
 import net.minecraft.client.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,5 +19,14 @@ public class KeyboardMixin {
 
         if(event.shouldCancel())
             ci.cancel();
+    }
+
+    @Inject(method = "onChar", at = @At("HEAD"), cancellable = true)
+    private void saturn$onChar(long window, int codepoint, int modifiers, CallbackInfo ci) {
+        EventChar event = EventChar.get((char) codepoint, modifiers);
+        SaturnClient.EVENT_BUS.post(event);
+        if (event.shouldCancel()) {
+            ci.cancel();
+        }
     }
 }
