@@ -1,2 +1,2 @@
 ﻿# Saturn Client
-A shitty side-project 1.21.4 client
+1.21.4 utility client made for 6b6t.org
