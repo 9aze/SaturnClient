@@ -46,6 +46,8 @@ public class ModuleButton implements IMinecraft {
                 moduleSettings.add(component);
             }
         }
+
+        moduleSettings.add(new BindSettingComponent(module, x, y, width));
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
@@ -85,14 +87,6 @@ public class ModuleButton implements IMinecraft {
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
-        if (isHoveringTitle(mouseX, mouseY)) {
-            if (button == 0) {
-                module.toggle();
-            } else if (button == 1) {
-                open = !open;
-            }
-        }
-
         if (open) {
             boolean handled = false;
             for (ModuleSetting<?> setting : moduleSettings) {
@@ -103,7 +97,17 @@ public class ModuleButton implements IMinecraft {
                     stringSetting.mouseClicked((int) mouseX, (int) mouseY, button);
                 } else if (setting instanceof ColorSettingComponent colorSetting) {
                     colorSetting.mouseClicked((int) mouseX, (int) mouseY, button);
+                } else if (setting instanceof BindSettingComponent bindSetting) {
+                    bindSetting.mouseClicked((int) mouseX, (int) mouseY, button);
                 }
+            }
+        }
+
+        if (isHoveringTitle(mouseX, mouseY)) {
+            if (button == 0) {
+                module.toggle();
+            } else if (button == 1) {
+                open = !open;
             }
         }
     }
@@ -115,6 +119,8 @@ public class ModuleButton implements IMinecraft {
                     stringSetting.keyPressed(keyCode, scanCode, modifiers);
                 } else if (setting instanceof ColorSettingComponent colorSetting) {
                     colorSetting.keyPressed(keyCode, scanCode, modifiers);
+                } else if (setting instanceof BindSettingComponent bindSetting) {
+                    bindSetting.keyPressed(keyCode, scanCode, modifiers);
                 }
             }
         }

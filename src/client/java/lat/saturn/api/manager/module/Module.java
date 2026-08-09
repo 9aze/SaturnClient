@@ -21,7 +21,8 @@ public abstract class Module implements IMinecraft {
     @Getter
     private final boolean toggleInScreens;
     @Getter
-    private final BindMode bindMode;
+    @Setter
+    private BindMode bindMode;
     @Getter
     @Setter
     private int bind;
