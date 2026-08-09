@@ -26,7 +26,7 @@ public abstract class Module implements IMinecraft {
     @Getter
     @Setter
     private int bind;
-
+    @Getter
     private boolean alwaysActive;
     @Getter
     private boolean toggled;

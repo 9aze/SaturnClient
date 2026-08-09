@@ -50,7 +50,7 @@ public class ModuleButton implements IMinecraft {
                 moduleSettings.add(component);
             }
         }
-
+        if(module.isAlwaysActive()) return;
         moduleSettings.add(new BindSettingComponent(module, x, y, width));
     }
 
