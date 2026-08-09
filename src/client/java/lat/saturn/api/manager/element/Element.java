@@ -5,6 +5,7 @@ import lat.saturn.api.manager.module.Category;
 import lat.saturn.api.setting.Setting;
 import lat.saturn.api.util.IMinecraft;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,12 @@ public abstract class Element implements IMinecraft {
     private final String description;
     @Getter
     private final HudCategory category;
+    @Getter
+    @Setter
+    private double x, y;
+    @Getter
+    @Setter
+    private int width, height;
 
     @Getter
     private boolean toggled;

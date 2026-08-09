@@ -1,6 +1,8 @@
 package lat.saturn.gui.click.components;
 
 import lat.saturn.api.manager.Managers;
+import lat.saturn.api.manager.element.Element;
+import lat.saturn.api.manager.element.HudCategory;
 import lat.saturn.api.manager.module.Category;
 import lat.saturn.api.manager.module.Module;
 import lat.saturn.api.util.IMinecraft;
@@ -17,17 +19,17 @@ import java.util.ArrayList;
 
 public class CategoryPane implements IMinecraft {
 
-    private final Category category;
+    private final String categoryName;
     private final Identifier icon;
     private double x, y, width;
     private boolean open = true;
     private boolean dragging;
     private double dragX, dragY;
     private double titleHeight = mc.textRenderer.fontHeight + 6;
-    private ArrayList<ModuleButton> moduleButtons = new ArrayList<>();
+    private final ArrayList<PaneButton> buttons = new ArrayList<>();
 
     public CategoryPane(Category category, double x, double y, double width) {
-        this.category = category;
+        this.categoryName = category.getName();
         this.x = x;
         this.y = y;
         this.width = width;
@@ -36,17 +38,32 @@ public class CategoryPane implements IMinecraft {
         double moduleY = y + titleHeight + 3;
         for (Module module : Managers.MODULE_MANAGER.getByCategory(category)) {
             ModuleButton button = new ModuleButton(module, x + 2, moduleY, width - 4);
-            moduleButtons.add(button);
+            buttons.add(button);
             moduleY += button.getHeight() + 2;
         }
     }
 
+    public CategoryPane(HudCategory category, double x, double y, double width) {
+        this.categoryName = category.getName();
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.icon = Identifier.of("saturnclient", "icons/" + category.getIcon());
+
+        double elementY = y + titleHeight + 3;
+        for (Element element : Managers.ELEMENT_MANAGER.getByCategory(category)) {
+            ElementButton button = new ElementButton(element, x + 2, elementY, width - 4);
+            buttons.add(button);
+            elementY += button.getHeight() + 2;
+        }
+    }
+
     private double getModuleAreaHeight() {
-        if (moduleButtons.isEmpty()) return 0;
+        if (buttons.isEmpty()) return 0;
 
         double height = 3;
-        for (ModuleButton moduleButton : moduleButtons) {
-            height += moduleButton.getHeight() + 2;
+        for (PaneButton button : buttons) {
+            height += button.getHeight() + 2;
         }
 
         return height;
@@ -66,26 +83,26 @@ public class CategoryPane implements IMinecraft {
 
         context.drawTexture(RenderLayer::getGuiTextured, icon, iconX, iconY, 0, 0, iconSize, iconSize, iconSize, iconSize, color.getRGB());
 
-        RenderUtils.drawCustomString(context, category.getName(), new Color(255, 255, 255, 255), iconX + iconSize + 2, (int) (y - 1), 11);
+        RenderUtils.drawCustomString(context, categoryName, new Color(255, 255, 255, 255), iconX + iconSize + 2, (int) (y - 1), 11);
 
         String tooltip = null;
 
-        if (open && !moduleButtons.isEmpty()) {
+        if (open && !buttons.isEmpty()) {
             double areaHeight = getModuleAreaHeight();
 
             RenderUtils.drawRoundedRect(context.getMatrices(), new Color(17, 17, 17), x, y + titleHeight, width, areaHeight, 0f, 0f, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 12);
 
-            double moduleY = y + titleHeight + 3;
-            for (ModuleButton moduleButton : moduleButtons) {
-                moduleButton.setPos(x + 2, moduleY);
-                moduleButton.render(context, mouseX, mouseY, delta);
+            double buttonY = y + titleHeight + 3;
+            for (PaneButton button : buttons) {
+                button.setPos(x + 2, buttonY);
+                button.render(context, mouseX, mouseY, delta);
 
-                String description = moduleButton.getHoveredDescription(mouseX, mouseY);
+                String description = button.getHoveredDescription(mouseX, mouseY);
                 if (description != null) {
                     tooltip = description;
                 }
 
-                moduleY += moduleButton.getHeight() + 2;
+                buttonY += button.getHeight() + 2;
             }
 
             RenderUtils.drawRect(context.getMatrices(), outlineColor, x, y + titleHeight, width, 1);
@@ -110,8 +127,8 @@ public class CategoryPane implements IMinecraft {
         }
 
         if (open) {
-            for (ModuleButton moduleButton : moduleButtons) {
-                moduleButton.mouseClicked(mouseX, mouseY, button);
+            for (PaneButton paneButton : buttons) {
+                paneButton.mouseClicked(mouseX, mouseY, button);
             }
         }
     }
@@ -123,8 +140,8 @@ public class CategoryPane implements IMinecraft {
         }
 
         if (open) {
-            for (ModuleButton moduleButton : moduleButtons) {
-                moduleButton.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+            for (PaneButton paneButton : buttons) {
+                paneButton.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
             }
         }
     }
@@ -133,24 +150,24 @@ public class CategoryPane implements IMinecraft {
         dragging = false;
 
         if (open) {
-            for (ModuleButton moduleButton : moduleButtons) {
-                moduleButton.mouseReleased(mouseX, mouseY, button);
+            for (PaneButton paneButton : buttons) {
+                paneButton.mouseReleased(mouseX, mouseY, button);
             }
         }
     }
 
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
         if (open) {
-            for (ModuleButton moduleButton : moduleButtons) {
-                moduleButton.keyPressed(keyCode, scanCode, modifiers);
+            for (PaneButton paneButton : buttons) {
+                paneButton.keyPressed(keyCode, scanCode, modifiers);
             }
         }
     }
 
     public void charTyped(char chr, int modifiers) {
         if (open) {
-            for (ModuleButton moduleButton : moduleButtons) {
-                moduleButton.charTyped(chr, modifiers);
+            for (PaneButton paneButton : buttons) {
+                paneButton.charTyped(chr, modifiers);
             }
         }
     }

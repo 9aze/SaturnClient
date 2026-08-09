@@ -1,6 +1,7 @@
 package lat.saturn.api.util.render;
 
 import lat.saturn.api.util.IMinecraft;
+import lat.saturn.feature.module.client.HudEditor;
 import me.x150.renderer.font.FontRenderer;
 import me.x150.renderer.render.Renderer2d;
 import net.minecraft.client.gui.DrawContext;
@@ -52,6 +53,14 @@ public class RenderUtils implements IMinecraft {
 
     public static void drawString(DrawContext context, String text, Color color, int x, int y, boolean shadow) {
         context.drawText(mc.textRenderer, text, x, y, color.getRGB(), shadow);
+    }
+
+    public static void drawHUDString(DrawContext context, String text, Color color, float x, float y, float size) {
+        if(HudEditor.INSTANCE.customFont.getValue()) {
+            drawCustomString(context, text, color, x, y-2, size);
+        } else {
+            drawString(context, text, color, (int) x, (int) y, true);
+        }
     }
 
     public static void drawCustomString(DrawContext context, String text, Color color, float x, float y, float size) {
