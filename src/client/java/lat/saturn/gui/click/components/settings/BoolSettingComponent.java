@@ -2,6 +2,7 @@ package lat.saturn.gui.click.components.settings;
 
 import lat.saturn.api.setting.settings.BoolSetting;
 import lat.saturn.api.util.render.RenderUtils;
+import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
 import lat.saturn.gui.click.components.ModuleSetting;
 import net.minecraft.client.gui.DrawContext;
@@ -20,7 +21,19 @@ public class BoolSettingComponent extends ModuleSetting<BoolSetting> {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
-        RenderUtils.drawCustomString(context, setting.getValue() ? setting.getName() : Formatting.GRAY + setting.getName(), Color.WHITE, (int)(x + 4), (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)), 11);
+        int textX = (int) (x+4);
+        int textY =  (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2));
+
+        if (isHovering(mouseX, mouseY)) {
+            switch (ClickGUIModule.INSTANCE.hoverEffect.getValue()) {
+                case ClickGUIModule.HoverEffect.Right -> textX = (int) (x+6);
+                case ClickGUIModule.HoverEffect.Up -> textY = (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)) - 2;
+                case ClickGUIModule.HoverEffect.Highlight -> RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, height, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
+                default -> {}
+            }
+        }
+
+        RenderUtils.drawCustomString(context, setting.getValue() ? setting.getName() : Formatting.GRAY + setting.getName(), Color.WHITE, textX, textY, 11);
 
         int boxSize = 8;
         int boxX = (int) (x + width - boxSize - 4);

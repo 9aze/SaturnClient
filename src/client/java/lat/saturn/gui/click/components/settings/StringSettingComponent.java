@@ -2,6 +2,7 @@ package lat.saturn.gui.click.components.settings;
 
 import lat.saturn.api.setting.settings.StringSetting;
 import lat.saturn.api.util.render.RenderUtils;
+import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.gui.click.components.ModuleSetting;
 import net.minecraft.client.gui.DrawContext;
 
@@ -58,7 +59,20 @@ public class StringSettingComponent extends ModuleSetting<StringSetting> {
         String visible = value.substring(start, end);
 
         Color textColor = !value.isEmpty() ? Color.WHITE : Color.GRAY;
-        RenderUtils.drawCustomString(context, value.isEmpty() ? setting.getName() + "..." : visible, textColor, boxX + 4, textY, 11);
+
+        int textX = (int) (boxX+4);
+        int textY_ = textY;
+
+        if (isHovering(mouseX, mouseY) && !focused) {
+            switch (ClickGUIModule.INSTANCE.hoverEffect.getValue()) {
+                case ClickGUIModule.HoverEffect.Right -> textX = (int) (boxX+6);
+                case ClickGUIModule.HoverEffect.Up -> textY_ = (int) textY - 2;
+                case ClickGUIModule.HoverEffect.Highlight -> RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, height, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
+                default -> {}
+            }
+        }
+
+        RenderUtils.drawCustomString(context, value.isEmpty() ? setting.getName() + "..." : visible, textColor, textX, textY_, 11);
 
         if (focused && selectAll && !value.isEmpty()) {
             int selWidth = (int) RenderUtils.customTextWidth(visible, 11);

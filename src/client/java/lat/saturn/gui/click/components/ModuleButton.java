@@ -100,7 +100,6 @@ public class ModuleButton implements IMinecraft {
                 }
                 default -> {}
             }
-
         }
 
         RenderUtils.drawCustomString(context, text, new Color(255, 255, 255, 255), textX, textY, 11);

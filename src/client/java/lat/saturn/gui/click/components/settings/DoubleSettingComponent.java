@@ -31,7 +31,19 @@ public class DoubleSettingComponent extends ModuleSetting {
         else
             RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x + 2, y, filledWidth, height);
 
-        RenderUtils.drawCustomString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + Math.floor(current * 100) / 100, Color.WHITE, (int) (x + 4), (int) (y + 0.5f + height / 2 - RenderUtils.customFontHeight(11) / 2), 11);
+        int textX = (int) (x+4);
+        int textY =  (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2));
+
+        if (isMouseOver(mouseX, mouseY)) {
+            switch (ClickGUIModule.INSTANCE.hoverEffect.getValue()) {
+                case ClickGUIModule.HoverEffect.Right -> textX = (int) (x+6);
+                case ClickGUIModule.HoverEffect.Up -> textY = (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)) - 2;
+                case ClickGUIModule.HoverEffect.Highlight -> RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, height, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
+                default -> {}
+            }
+        }
+
+        RenderUtils.drawCustomString(context, Formatting.WHITE + setting.getName() + ": " + Formatting.GRAY + Math.floor(current * 100) / 100, Color.WHITE, textX, textY, 11);
     }
 
     @Override

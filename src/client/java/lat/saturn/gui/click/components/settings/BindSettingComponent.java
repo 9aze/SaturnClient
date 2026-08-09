@@ -4,6 +4,7 @@ import lat.saturn.api.manager.module.Module;
 import lat.saturn.api.setting.Setting;
 import lat.saturn.api.util.KeyUtils;
 import lat.saturn.api.util.render.RenderUtils;
+import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.gui.click.components.ModuleSetting;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.InputUtil;
@@ -43,9 +44,20 @@ public class BindSettingComponent extends ModuleSetting<BindSettingComponent.Bin
 
         String label = listening ? Formatting.GRAY + "Press a key..." : Formatting.WHITE + "Bind: " + Formatting.GRAY + KeyUtils.getKeyName(module.getBind());
 
-        float textY = (float) (boxY + (boxHeight / 2f) - (RenderUtils.customFontHeight(TEXT_SIZE) / 2f));
 
-        RenderUtils.drawCustomString(context, label, Color.WHITE, boxX + 4, textY, TEXT_SIZE);
+        int textX = (int) (boxX+4);
+        float textY =  (float) (boxY + (boxHeight / 2f) - (RenderUtils.customFontHeight(TEXT_SIZE) / 2f));
+
+        if (isHovering(mouseX, mouseY)) {
+            switch (ClickGUIModule.INSTANCE.hoverEffect.getValue()) {
+                case ClickGUIModule.HoverEffect.Right -> textX = (int) (boxX+6);
+                case ClickGUIModule.HoverEffect.Up -> textY = (float) (boxY + (boxHeight / 2f) - (RenderUtils.customFontHeight(TEXT_SIZE) / 2f)) - 2;
+                case ClickGUIModule.HoverEffect.Highlight -> RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, height, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
+                default -> {}
+            }
+        }
+
+        RenderUtils.drawCustomString(context, label, Color.WHITE, textX, textY, TEXT_SIZE);
 
         String modeLabel = module.getBindMode() == Module.BindMode.HOLD ? "[H]" : "[T]";
         int badgeX = boxX + boxWidth - BADGE_WIDTH - 3;

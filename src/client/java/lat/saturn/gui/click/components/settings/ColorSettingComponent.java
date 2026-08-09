@@ -2,6 +2,7 @@ package lat.saturn.gui.click.components.settings;
 
 import lat.saturn.api.setting.settings.ColorSetting;
 import lat.saturn.api.util.render.RenderUtils;
+import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
 import lat.saturn.gui.click.components.ModuleSetting;
 import net.minecraft.client.gui.DrawContext;
@@ -205,7 +206,19 @@ public class ColorSettingComponent extends ModuleSetting<ColorSetting> {
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         Color current = setting.getValue();
 
-        RenderUtils.drawCustomString(context, setting.getName(), Color.WHITE, (float) (x + 4), (float) (y + 0.5f + (rowHeight() / 2) - (RenderUtils.customFontHeight(LABEL_SIZE) / 2)), LABEL_SIZE);
+        int textX = (int) (x+4);
+        int textY =  (int)(y + 0.5f + (rowHeight() / 2) - (RenderUtils.customFontHeight(LABEL_SIZE) / 2));
+
+        if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + rowHeight()) { // cancer code, checks if hovering title :)
+            switch (ClickGUIModule.INSTANCE.hoverEffect.getValue()) {
+                case ClickGUIModule.HoverEffect.Right -> textX = (int) (x+6);
+                case ClickGUIModule.HoverEffect.Up -> textY = (int) ((y + 0.5f + (rowHeight() / 2) - (RenderUtils.customFontHeight(LABEL_SIZE) / 2)) - 2);
+                case ClickGUIModule.HoverEffect.Highlight -> RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, rowHeight(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
+                default -> {}
+            }
+        }
+
+        RenderUtils.drawCustomString(context, setting.getName(), Color.WHITE, textX, textY, LABEL_SIZE);
 
         int previewWidth = 18;
         int previewHeight = (int) rowHeight() - 4;
