@@ -2,6 +2,7 @@ package lat.saturn.gui.click.components.settings;
 
 import lat.saturn.api.manager.module.Module;
 import lat.saturn.api.setting.Setting;
+import lat.saturn.api.util.KeyUtils;
 import lat.saturn.api.util.render.RenderUtils;
 import lat.saturn.gui.click.components.ModuleSetting;
 import net.minecraft.client.gui.DrawContext;
@@ -33,20 +34,6 @@ public class BindSettingComponent extends ModuleSetting<BindSettingComponent.Bin
         }
     }
 
-    private String bindName() {
-        int bind = module.getBind();
-        if (bind <= 0) return "None";
-
-        try {
-            String name = InputUtil.fromKeyCode(bind, 0).getLocalizedText().getString();
-            if (name == null || name.isBlank() || name.contains(".key.") || name.contains(".action."))
-                return "None";
-            return name;
-        } catch (Exception e) {
-            return "None";
-        }
-    }
-
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         int boxX = (int) x;
@@ -56,7 +43,7 @@ public class BindSettingComponent extends ModuleSetting<BindSettingComponent.Bin
 
         String label = listening
                 ? Formatting.GRAY + "Press a key..."
-                : Formatting.WHITE + "Bind: " + Formatting.GRAY + bindName();
+                : Formatting.WHITE + "Bind: " + Formatting.GRAY + KeyUtils.getKeyName(module.getBind());
 
         float textY = (float) (boxY + (boxHeight / 2f)
                 - (RenderUtils.customFontHeight(TEXT_SIZE) / 2f));

@@ -16,7 +16,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
-@RegisterModule(name="Click GUI", description="The client's Click GUI", category=Category.CLIENT, toggled=true, bind=GLFW.GLFW_KEY_RIGHT_SHIFT)
+@RegisterModule(name="ClickGUI", description="The client's Click GUI", category=Category.CLIENT, toggled=true, bind=GLFW.GLFW_KEY_RIGHT_SHIFT)
 public class ClickGUIModule extends Module {
     public static ClickGUIModule INSTANCE;
 
@@ -29,6 +29,7 @@ public class ClickGUIModule extends Module {
     }
 
     public BoolSetting thickSliders = new BoolSetting("Thick Sliders", "Toggles thick sliders", false);
+    public BoolSetting moduleBinds = new BoolSetting("Module Binds", "Show binds on the module button", true);
     public IntSetting categoryRadius = new IntSetting("Category Radius", "Radius of category pane", 2, 0, 30);
     public IntSetting moduleRadius = new IntSetting("Module Radius", "Radius of module button", 2, 0, 30);
     public ColorSetting bgColor = new ColorSetting("Bg Color", "Color of the background", new Color(0, 0, 0, 120));

@@ -8,7 +8,7 @@ import lat.saturn.api.setting.settings.BoolSetting;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.text.Text;
 
-@RegisterModule(name="GUI Move", description="Allows you to move without closing GUI(s)", category= Category.MOVEMENT, toggled = false)
+@RegisterModule(name="GuiMove", description="Allows you to move without closing GUI(s)", category= Category.MOVEMENT, toggled = false)
 public class GUIMove extends Module {
 
     BoolSetting boolPrintKey = new BoolSetting("Print key", "Shows the pressed key", false);

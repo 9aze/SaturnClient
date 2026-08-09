@@ -3,6 +3,7 @@ package lat.saturn.gui.click.components;
 import lat.saturn.api.manager.module.Module;
 import lat.saturn.api.setting.settings.*;
 import lat.saturn.api.util.IMinecraft;
+import lat.saturn.api.util.KeyUtils;
 import lat.saturn.api.util.render.RenderUtils;
 import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
@@ -10,6 +11,8 @@ import lat.saturn.gui.click.ToolTip;
 import lat.saturn.gui.click.components.settings.*;
 import lombok.Getter;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Formatting;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -75,11 +78,17 @@ public class ModuleButton implements IMinecraft {
             RenderUtils.drawRoundedOutline(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x+1, y+1, width-2, height-2, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 1.0f, 12.0f);
         }
 
+        String text;
 
+        if(ClickGUIModule.INSTANCE.moduleBinds.getValue() && !KeyUtils.getKeyName(module.getBind()).equals("None")) {
+            text = Formatting.WHITE + module.getName() + " " + Formatting.GRAY + "[" + KeyUtils.getKeyName(module.getBind()).toLowerCase() + "]";
+        } else {
+            text = module.getName();
+        }
 
         RenderUtils.drawCustomString(
                 context,
-                module.getName(),
+                text,
                 new Color(255, 255, 255, 255),
                 (int) x + 2,
                 (int) (y - 1),
