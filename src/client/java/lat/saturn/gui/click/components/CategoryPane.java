@@ -7,7 +7,7 @@ import lat.saturn.api.util.IMinecraft;
 import lat.saturn.api.util.render.RenderUtils;
 import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
-import me.x150.renderer.render.Renderer2d;
+import lat.saturn.gui.click.ToolTip;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
@@ -76,6 +76,8 @@ public class CategoryPane implements IMinecraft {
 
         RenderUtils.drawCustomString(context, category.getName(), new Color(255, 255, 255, 255), iconX + iconSize + 2, (int) (y - 1), 11);
 
+        String tooltip = null;
+
         if (open && !moduleButtons.isEmpty()) {
             double areaHeight = getModuleAreaHeight();
 
@@ -85,6 +87,12 @@ public class CategoryPane implements IMinecraft {
             for (ModuleButton moduleButton : moduleButtons) {
                 moduleButton.setPos(x + 2, moduleY);
                 moduleButton.render(context, mouseX, mouseY, delta);
+
+                String description = moduleButton.getHoveredDescription(mouseX, mouseY);
+                if (description != null) {
+                    tooltip = description;
+                }
+
                 moduleY += moduleButton.getHeight() + 2;
             }
 
@@ -92,6 +100,10 @@ public class CategoryPane implements IMinecraft {
         }
 
         RenderUtils.drawRoundedOutline(context.getMatrices(), outlineColor, x, y, width, totalHeight, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 1f, 12);
+
+        if (tooltip != null && !tooltip.isEmpty()) {
+            ToolTip.render(context, tooltip, mouseX, mouseY);
+        }
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {

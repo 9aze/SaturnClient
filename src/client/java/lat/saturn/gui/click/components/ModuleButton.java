@@ -6,6 +6,7 @@ import lat.saturn.api.util.IMinecraft;
 import lat.saturn.api.util.render.RenderUtils;
 import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
+import lat.saturn.gui.click.ToolTip;
 import lat.saturn.gui.click.components.settings.*;
 import lombok.Getter;
 import net.minecraft.client.gui.DrawContext;
@@ -84,6 +85,22 @@ public class ModuleButton implements IMinecraft {
                 (int) (y - 1),
                 11
         );
+    }
+
+    public String getHoveredDescription(double mouseX, double mouseY) {
+        if (isHoveringTitle(mouseX, mouseY)) {
+            return module.getDescription();
+        }
+
+        if (open) {
+            for (ModuleSetting<?> setting : moduleSettings) {
+                if (setting.isHovering(mouseX, mouseY)) {
+                    return setting.getSetting().getDescription();
+                }
+            }
+        }
+
+        return null;
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
