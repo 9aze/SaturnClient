@@ -86,12 +86,34 @@ public class ModuleButton implements IMinecraft {
             text = module.getName();
         }
 
+        int textX = (int) (x+2);
+        int textY = (int) (y-1);
+
+        if (isHoveringTitle(mouseX, mouseY)) {
+            switch (ClickGUIModule.INSTANCE.hoverEffect.getValue()) {
+                case ClickGUIModule.HoverEffect.Right -> {
+                    textX = (int) (x+4);
+                }
+                case ClickGUIModule.HoverEffect.Up -> {
+                    textY = (int) y-3;
+                }
+                case ClickGUIModule.HoverEffect.Highlight -> {
+                    RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, titleHeight, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
+                }
+                default -> {
+
+                }
+            }
+
+        }
+
+
         RenderUtils.drawCustomString(
                 context,
                 text,
                 new Color(255, 255, 255, 255),
-                (int) x + 2,
-                (int) (y - 1),
+                textX,
+                textY,
                 11
         );
     }

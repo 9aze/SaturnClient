@@ -28,12 +28,21 @@ public class ClickGUIModule extends Module {
         Cursor
     }
 
+    public enum HoverEffect {
+        Highlight,
+        Up,
+        Right,
+        None
+    }
+
     public BoolSetting thickSliders = new BoolSetting("Thick Sliders", "Toggles thick sliders", false);
     public BoolSetting moduleBinds = new BoolSetting("Module Binds", "Show binds on the module button", true);
     public IntSetting categoryRadius = new IntSetting("Category Radius", "Radius of category pane", 2, 0, 30);
     public IntSetting moduleRadius = new IntSetting("Module Radius", "Radius of module button", 2, 0, 30);
     public ColorSetting bgColor = new ColorSetting("Bg Color", "Color of the background", new Color(0, 0, 0, 120));
     public EnumSetting<TooltipPosition> tooltipPosition = new EnumSetting<>("Tooltip Position", "Position of tooltips", TooltipPosition.BottomLeft);
+    public EnumSetting<HoverEffect> hoverEffect = new EnumSetting<>("Hover Effect", "Hover effect on the module buttons", HoverEffect.Highlight);
+
 
     @Override
     public void onEnable() {
