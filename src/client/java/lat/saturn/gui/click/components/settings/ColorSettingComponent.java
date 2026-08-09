@@ -205,8 +205,7 @@ public class ColorSettingComponent extends ModuleSetting<ColorSetting> {
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         Color current = setting.getValue();
 
-        RenderUtils.drawCustomString(context, setting.getName(), Color.WHITE, (float) (x + 4),
-                (float) (y + 0.5f + (rowHeight() / 2) - (RenderUtils.customFontHeight(LABEL_SIZE) / 2)), LABEL_SIZE);
+        RenderUtils.drawCustomString(context, setting.getName(), Color.WHITE, (float) (x + 4), (float) (y + 0.5f + (rowHeight() / 2) - (RenderUtils.customFontHeight(LABEL_SIZE) / 2)), LABEL_SIZE);
 
         int previewWidth = 18;
         int previewHeight = (int) rowHeight() - 4;

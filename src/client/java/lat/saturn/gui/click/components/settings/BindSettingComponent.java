@@ -41,16 +41,11 @@ public class BindSettingComponent extends ModuleSetting<BindSettingComponent.Bin
         int boxWidth = (int) width;
         int boxHeight = (int) height;
 
-        String label = listening
-                ? Formatting.GRAY + "Press a key..."
-                : Formatting.WHITE + "Bind: " + Formatting.GRAY + KeyUtils.getKeyName(module.getBind());
+        String label = listening ? Formatting.GRAY + "Press a key..." : Formatting.WHITE + "Bind: " + Formatting.GRAY + KeyUtils.getKeyName(module.getBind());
 
-        float textY = (float) (boxY + (boxHeight / 2f)
-                - (RenderUtils.customFontHeight(TEXT_SIZE) / 2f));
+        float textY = (float) (boxY + (boxHeight / 2f) - (RenderUtils.customFontHeight(TEXT_SIZE) / 2f));
 
-        RenderUtils.drawCustomString(
-                context, label, Color.WHITE, boxX + 4, textY, TEXT_SIZE
-        );
+        RenderUtils.drawCustomString(context, label, Color.WHITE, boxX + 4, textY, TEXT_SIZE);
 
         String modeLabel = module.getBindMode() == Module.BindMode.HOLD ? "[H]" : "[T]";
         int badgeX = boxX + boxWidth - BADGE_WIDTH - 3;
@@ -59,18 +54,14 @@ public class BindSettingComponent extends ModuleSetting<BindSettingComponent.Bin
 
         float modeTextWidth = RenderUtils.customTextWidth(modeLabel, 9f);
         float modeTextX = badgeX + (BADGE_WIDTH - modeTextWidth) / 2f;
-        float modeTextY = badgeY
-                + (badgeHeight - RenderUtils.customFontHeight(9f)) / 2f;
+        float modeTextY = badgeY + (badgeHeight - RenderUtils.customFontHeight(9f)) / 2f;
 
-        RenderUtils.drawCustomString(
-                context, modeLabel, Color.GRAY, modeTextX, modeTextY, 9f
-        );
+        RenderUtils.drawCustomString(context, modeLabel, Color.GRAY, modeTextX, modeTextY, 9f);
     }
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int button) {
-        boolean inBox = mouseX >= x && mouseX <= x + width
-                && mouseY >= y && mouseY <= y + height;
+        boolean inBox = mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
 
         if (!inBox) {
             if (listening) {
@@ -97,11 +88,7 @@ public class BindSettingComponent extends ModuleSetting<BindSettingComponent.Bin
                 if (activeListener == this) activeListener = null;
             }
 
-            case 2 -> module.setBindMode(
-                    module.getBindMode() == Module.BindMode.HOLD
-                            ? Module.BindMode.TOGGLE
-                            : Module.BindMode.HOLD
-            );
+            case 2 -> module.setBindMode(module.getBindMode() == Module.BindMode.HOLD ? Module.BindMode.TOGGLE : Module.BindMode.HOLD);
         }
     }
 
@@ -117,7 +104,6 @@ public class BindSettingComponent extends ModuleSetting<BindSettingComponent.Bin
 
     @Override
     public boolean isHovering(double mouseX, double mouseY) {
-        return mouseX >= x && mouseX <= x + width
-                && mouseY >= y && mouseY <= y + height;
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
 }

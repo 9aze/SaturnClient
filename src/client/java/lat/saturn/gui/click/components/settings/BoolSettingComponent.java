@@ -20,31 +20,16 @@ public class BoolSettingComponent extends ModuleSetting<BoolSetting> {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
-        RenderUtils.drawCustomString(context, setting.getValue() ? setting.getName() : Formatting.GRAY + setting.getName(), Color.WHITE, (int)(x + 4),
-                (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)), 11);
+        RenderUtils.drawCustomString(context, setting.getValue() ? setting.getName() : Formatting.GRAY + setting.getName(), Color.WHITE, (int)(x + 4), (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)), 11);
 
         int boxSize = 8;
         int boxX = (int) (x + width - boxSize - 4);
         int boxY = (int) (y + (height - boxSize) / 2);
 
-        RenderUtils.drawRect(
-                context.getMatrices(),
-                new Color(45, 45, 45, 255),
-                boxX,
-                boxY,
-                boxSize,
-                boxSize
-        );
+        RenderUtils.drawRect(context.getMatrices(), new Color(45, 45, 45, 255), boxX, boxY, boxSize, boxSize);
 
         if (setting.getValue()) {
-            RenderUtils.drawRect(
-                    context.getMatrices(),
-                    ColorModule.INSTANCE.clientColor.getValue(),
-                    boxX + 2,
-                    boxY + 2,
-                    boxSize - 4,
-                    boxSize - 4
-            );
+            RenderUtils.drawRect(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), boxX + 2, boxY + 2, boxSize - 4, boxSize - 4);
         }
     }
 

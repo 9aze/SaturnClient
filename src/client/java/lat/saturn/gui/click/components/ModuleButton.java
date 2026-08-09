@@ -78,12 +78,10 @@ public class ModuleButton implements IMinecraft {
             RenderUtils.drawRoundedOutline(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x+1, y+1, width-2, height-2, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 1.0f, 12.0f);
         }
 
-        String text;
+        String text = module.getName();
 
         if(ClickGUIModule.INSTANCE.moduleBinds.getValue() && !KeyUtils.getKeyName(module.getBind()).equals("None")) {
             text = Formatting.WHITE + module.getName() + " " + Formatting.GRAY + "[" + KeyUtils.getKeyName(module.getBind()).toLowerCase() + "]";
-        } else {
-            text = module.getName();
         }
 
         int textX = (int) (x+2);
@@ -100,22 +98,13 @@ public class ModuleButton implements IMinecraft {
                 case ClickGUIModule.HoverEffect.Highlight -> {
                     RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, titleHeight, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
                 }
-                default -> {
-
-                }
+                default -> {}
             }
 
         }
 
+        RenderUtils.drawCustomString(context, text, new Color(255, 255, 255, 255), textX, textY, 11);
 
-        RenderUtils.drawCustomString(
-                context,
-                text,
-                new Color(255, 255, 255, 255),
-                textX,
-                textY,
-                11
-        );
     }
 
     public String getHoveredDescription(double mouseX, double mouseY) {

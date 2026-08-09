@@ -49,13 +49,6 @@ public class ToolTip implements IMinecraft {
             }
         }
 
-        RenderUtils.drawCustomString(
-                context,
-                description,
-                new Color(255, 255, 255, 255),
-                x,
-                y,
-                11
-        );
+        RenderUtils.drawCustomString(context, description, new Color(255, 255, 255, 255), x, y, 11);
     }
 }

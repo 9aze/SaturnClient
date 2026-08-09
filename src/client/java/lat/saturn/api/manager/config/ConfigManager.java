@@ -164,19 +164,13 @@ public class ConfigManager {
                     JsonObject color = element.getAsJsonObject();
 
                     if (color.has("color"))
-                        colorSetting.setValue(new java.awt.Color(
-                                color.get("color").getAsInt(), true
-                        ));
+                        colorSetting.setValue(new java.awt.Color(color.get("color").getAsInt(), true));
 
                     if (color.has("rainbow"))
-                        colorSetting.setRainbow(
-                                color.get("rainbow").getAsBoolean()
-                        );
+                        colorSetting.setRainbow(color.get("rainbow").getAsBoolean());
 
                     if (color.has("sync"))
-                        colorSetting.setSync(
-                                color.get("sync").getAsBoolean()
-                        );
+                        colorSetting.setSync(color.get("sync").getAsBoolean());
 
                     continue;
                 }
@@ -187,9 +181,7 @@ public class ConfigManager {
                 Object value = GSON.fromJson(element, currentValue.getClass());
                 ((Setting) setting).setValue(value);
             } catch (Exception e) {
-                SaturnClient.LOGGER.error(
-                        "Failed to load setting {}", setting.getName(), e
-                );
+                SaturnClient.LOGGER.error("Failed to load setting {}", setting.getName(), e);
             }
         }
     }

@@ -64,15 +64,7 @@ public class CategoryPane implements IMinecraft {
 
         Color color = ColorModule.INSTANCE.clientColor.getValue();
 
-        context.drawTexture(
-                RenderLayer::getGuiTextured,
-                icon,
-                iconX, iconY,
-                0, 0,
-                iconSize, iconSize,
-                iconSize, iconSize,
-                color.getRGB()
-        );
+        context.drawTexture(RenderLayer::getGuiTextured, icon, iconX, iconY, 0, 0, iconSize, iconSize, iconSize, iconSize, color.getRGB());
 
         RenderUtils.drawCustomString(context, category.getName(), new Color(255, 255, 255, 255), iconX + iconSize + 2, (int) (y - 1), 11);
 
