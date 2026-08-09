@@ -51,27 +51,9 @@ public class ModuleButton implements IMinecraft {
         Color bgColor = module.isToggled() ? ColorModule.INSTANCE.clientColor.getValue() : new Color(17, 17, 17);
 
         if(!open) {
-            RenderUtils.drawRoundedRect(
-                    context.getMatrices(),
-                    bgColor,
-                    x, y, width, titleHeight,
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    12
-            );
+            RenderUtils.drawRoundedRect(context.getMatrices(), bgColor, x, y, width, titleHeight, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
         } else {
-            RenderUtils.drawRoundedRect(
-                    context.getMatrices(),
-                    bgColor,
-                    x+1, y+1, width-2, titleHeight-1,
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    12
-            );
+            RenderUtils.drawRoundedRect(context.getMatrices(), bgColor, x+1, y+1, width-2, titleHeight-1, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
         }
         height = titleHeight;
 
@@ -84,21 +66,9 @@ public class ModuleButton implements IMinecraft {
                 settingsY += setting.getHeight();
             }
 
-            height = settingsY - y + 2;
+            height = settingsY - y + 3;
 
-            RenderUtils.drawRoundedOutline(
-                    context.getMatrices(),
-                    ColorModule.INSTANCE.clientColor.getValue(),
-
-
-                    x+1, y+1, width-2, height-1,
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    ClickGUIModule.INSTANCE.moduleRadius.getValue(),
-                    1.0f,
-                    12.0f
-            );
+            RenderUtils.drawRoundedOutline(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x+1, y+1, width-2, height-2, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 1.0f, 12.0f);
         }
 
 

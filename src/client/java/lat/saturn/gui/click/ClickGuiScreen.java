@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ClickGuiScreen extends Screen {
     private static final int PANE_SPACING = 4;
-    private static final int PANE_WIDTH = 125;
+    private static final int PANE_WIDTH = 115;
     private final ArrayList<CategoryPane> panes = new ArrayList<>();
 
     public ClickGuiScreen() {
