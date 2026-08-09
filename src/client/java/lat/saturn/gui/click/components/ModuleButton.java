@@ -101,6 +101,32 @@ public class ModuleButton implements IMinecraft {
                     handled = true;
                 } else if (setting instanceof StringSettingComponent stringSetting) {
                     stringSetting.mouseClicked((int) mouseX, (int) mouseY, button);
+                } else if (setting instanceof ColorSettingComponent colorSetting) {
+                    colorSetting.mouseClicked((int) mouseX, (int) mouseY, button);
+                }
+            }
+        }
+    }
+
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (open) {
+            for (ModuleSetting<?> setting : moduleSettings) {
+                if (setting instanceof StringSettingComponent stringSetting) {
+                    stringSetting.keyPressed(keyCode, scanCode, modifiers);
+                } else if (setting instanceof ColorSettingComponent colorSetting) {
+                    colorSetting.keyPressed(keyCode, scanCode, modifiers);
+                }
+            }
+        }
+    }
+
+    public void charTyped(char chr, int modifiers) {
+        if (open) {
+            for (ModuleSetting<?> setting : moduleSettings) {
+                if (setting instanceof StringSettingComponent stringSetting) {
+                    stringSetting.charTyped(chr, modifiers);
+                } else if (setting instanceof ColorSettingComponent colorSetting) {
+                    colorSetting.charTyped(chr, modifiers);
                 }
             }
         }
@@ -129,25 +155,5 @@ public class ModuleButton implements IMinecraft {
 
     public boolean isHoveringTitle(double mx, double my) {
         return mx >= x && mx <= x + width && my >= y && my <= y + titleHeight;
-    }
-
-    public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (open) {
-            for (ModuleSetting<?> setting : moduleSettings) {
-                if (setting instanceof StringSettingComponent stringSetting) {
-                    stringSetting.keyPressed(keyCode, scanCode, modifiers);
-                }
-            }
-        }
-    }
-
-    public void charTyped(char chr, int modifiers) {
-        if (open) {
-            for (ModuleSetting<?> setting : moduleSettings) {
-                if (setting instanceof StringSettingComponent stringSetting) {
-                    stringSetting.charTyped(chr, modifiers);
-                }
-            }
-        }
     }
 }
