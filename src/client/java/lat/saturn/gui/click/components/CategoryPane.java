@@ -7,7 +7,10 @@ import lat.saturn.api.util.IMinecraft;
 import lat.saturn.api.util.render.RenderUtils;
 import lat.saturn.feature.module.client.ClickGUIModule;
 import lat.saturn.feature.module.client.ColorModule;
+import me.x150.renderer.render.Renderer2d;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.util.Identifier;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 public class CategoryPane implements IMinecraft {
 
     private final Category category;
+    private final Identifier icon;
     private double x, y, width;
     private boolean open = true;
     private boolean dragging;
@@ -27,6 +31,7 @@ public class CategoryPane implements IMinecraft {
         this.x = x;
         this.y = y;
         this.width = width;
+        this.icon = Identifier.of("saturnclient", "icons/" + category.getIcon());
 
         double moduleY = y + titleHeight + 3;
         for (Module module : Managers.MODULE_MANAGER.getByCategory(category)) {
@@ -52,10 +57,28 @@ public class CategoryPane implements IMinecraft {
         double totalHeight = titleHeight + (open ? getModuleAreaHeight() : 0);
 
         RenderUtils.drawRoundedRect(context.getMatrices(), new Color(17, 17, 17), x, y, width, titleHeight, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 0f, 0f, 12);
-        RenderUtils.drawCustomString(context, category.getName(), new Color(255, 255, 255, 255), (int) x + 4, (int) (y-1 ), 11);
+
+        int iconSize = 12;
+        int iconX = (int) x + 4;
+        int iconY = (int) (y + (titleHeight - iconSize) / 2);
+
+        Color color = ColorModule.INSTANCE.clientColor.getValue();
+
+        context.drawTexture(
+                RenderLayer::getGuiTextured,
+                icon,
+                iconX, iconY,
+                0, 0,
+                iconSize, iconSize,
+                iconSize, iconSize,
+                color.getRGB()
+        );
+
+        RenderUtils.drawCustomString(context, category.getName(), new Color(255, 255, 255, 255), iconX + iconSize + 2, (int) (y - 1), 11);
 
         if (open && !moduleButtons.isEmpty()) {
             double areaHeight = getModuleAreaHeight();
+
             RenderUtils.drawRoundedRect(context.getMatrices(), new Color(17, 17, 17), x, y + titleHeight, width, areaHeight, 0f, 0f, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 12);
 
             double moduleY = y + titleHeight + 3;

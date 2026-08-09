@@ -4,17 +4,18 @@ import lombok.Getter;
 
 @Getter
 public enum Category {
-    COMBAT("Combat"),
-    MISC("Misc"),
-    PLAYER("Player"),
-    MOVEMENT("Movement"),
-    WORLD("World"),
-    RENDER("Render"),
-    CLIENT("Client");
+    COMBAT("Combat", "combat.png"),
+    MISC("Misc", "misc.png"),
+    MOVEMENT("Movement", "movement.png"),
+    WORLD("World", "world.png"),
+    RENDER("Render", "render.png"),
+    CLIENT("Client", "config.png");
 
     private final String name;
+    private final String icon;
 
-    Category(String name) {
+    Category(String name, String icon) {
         this.name = name;
+        this.icon = icon;
     }
 }
