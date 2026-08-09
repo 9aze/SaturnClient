@@ -41,7 +41,7 @@ public class ClickGUIModule extends Module {
     public IntSetting moduleRadius = new IntSetting("Module Radius", "Radius of module button", 2, 0, 30);
     public ColorSetting bgColor = new ColorSetting("Bg Color", "Color of the background", new Color(0, 0, 0, 120));
     public EnumSetting<TooltipPosition> tooltipPosition = new EnumSetting<>("Tooltip Position", "Position of tooltips", TooltipPosition.BottomLeft);
-    public EnumSetting<HoverEffect> hoverEffect = new EnumSetting<>("Hover Effect", "Hover effect on the module buttons", HoverEffect.Highlight);
+    public EnumSetting<HoverEffect> hoverEffect = new EnumSetting<>("Hover Effect", "Hover effect on the module buttons", HoverEffect.Right);
 
 
     @Override
