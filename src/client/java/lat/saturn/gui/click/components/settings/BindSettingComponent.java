@@ -35,12 +35,15 @@ public class BindSettingComponent extends ModuleSetting<BindSettingComponent.Bin
 
     private String bindName() {
         int bind = module.getBind();
-        if (bind == UNBOUND) return "None";
+        if (bind <= 0) return "None";
 
         try {
-            return InputUtil.fromKeyCode(bind, 0).getLocalizedText().getString();
+            String name = InputUtil.fromKeyCode(bind, 0).getLocalizedText().getString();
+            if (name == null || name.isBlank() || name.contains(".key.") || name.contains(".action."))
+                return "None";
+            return name;
         } catch (Exception e) {
-            return "Key " + bind;
+            return "None";
         }
     }
 
