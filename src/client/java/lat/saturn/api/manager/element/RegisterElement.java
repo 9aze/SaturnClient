@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface RegisterElement {
     String name();
-    double x();
-    double y();
+    double x() default 0.0;
+    double y() default 0.0;
     String description() default "no description available";
     boolean toggled() default false;
 }

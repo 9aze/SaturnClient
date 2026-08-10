@@ -108,6 +108,8 @@ public class ConfigManager {
 
             JsonObject json = new JsonObject();
             json.addProperty("toggled", element.isToggled());
+            json.addProperty("x", element.getX());
+            json.addProperty("y", element.getY());
             json.add("settings", saveSettings(element.getSettings()));
             elements.add(element.getName(), json);
         }
@@ -124,6 +126,12 @@ public class ConfigManager {
 
             if (json.has("toggled"))
                 element.setToggled(json.get("toggled").getAsBoolean());
+
+            if (json.has("x"))
+                element.setX(Math.max(0, Math.min(1, json.get("x").getAsDouble())));
+
+            if (json.has("y"))
+                element.setY(Math.max(0, Math.min(1, json.get("y").getAsDouble())));
 
             if (json.has("settings"))
                 loadSettings(json.getAsJsonObject("settings"), element.getSettings());

@@ -33,6 +33,8 @@ public abstract class Element implements IMinecraft {
         description = annotation.description();
         category = HudCategory.HUD;
         toggled = annotation.toggled();
+        x = annotation.x();
+        y = annotation.y();
         if(toggled) {
             SaturnClient.EVENT_BUS.subscribe(this);
         } else {
