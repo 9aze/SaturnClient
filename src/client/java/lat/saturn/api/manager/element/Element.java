@@ -1,7 +1,6 @@
 package lat.saturn.api.manager.element;
 
 import lat.saturn.SaturnClient;
-import lat.saturn.api.manager.module.Category;
 import lat.saturn.api.setting.Setting;
 import lat.saturn.api.util.IMinecraft;
 import lombok.Getter;
@@ -25,18 +24,15 @@ public abstract class Element implements IMinecraft {
     @Getter
     @Setter
     private int width, height;
-
     @Getter
     private boolean toggled;
 
     public Element() {
         RegisterElement annotation = getClass().getAnnotation(RegisterElement.class);
-
         name = annotation.name();
         description = annotation.description();
         category = HudCategory.HUD;
         toggled = annotation.toggled();
-
         if(toggled) {
             SaturnClient.EVENT_BUS.subscribe(this);
         } else {
@@ -44,15 +40,22 @@ public abstract class Element implements IMinecraft {
         }
     }
 
+    public double getScreenX() {
+        int screenWidth = mc.getWindow().getScaledWidth();
+        return getX() * (screenWidth - width);
+    }
+
+    public double getScreenY() {
+        int screenHeight = mc.getWindow().getScaledHeight();
+        return getY() * (screenHeight - height);
+    }
+
     public void toggle() {
         setToggled(!this.toggled);
     }
 
     public void setToggled(boolean toggled) {
-       // if(alwaysActive) return;
-
         this.toggled = toggled;
-
         if (this.toggled) {
             SaturnClient.EVENT_BUS.subscribe(this);
             onEnable();
@@ -65,5 +68,4 @@ public abstract class Element implements IMinecraft {
     public void onEnable() {}
     public void onDisable() {}
     public void onSettingChange(Setting<?, ?> setting) {}
-
- }
+}
