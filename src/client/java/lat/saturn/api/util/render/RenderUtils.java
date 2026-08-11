@@ -55,17 +55,25 @@ public class RenderUtils implements IMinecraft {
         context.drawText(mc.textRenderer, text, x, y, color.getRGB(), shadow);
     }
 
-    public static void drawHUDString(DrawContext context, String text, Color color, float x, float y, float size) {
-        if(HudEditor.INSTANCE.customFont.getValue()) {
-            drawCustomString(context, text, color, x, y-2, size);
+    public static void drawHUDString(DrawContext context, Text text, float x, float y, float size) {
+        drawHUDString(context, text, x, y, size, 1f);
+    }
+
+    public static void drawHUDString(DrawContext context, Text text, float x, float y, float size, float alpha) {
+        if (HudEditor.INSTANCE.customFont.getValue()) {
+            fluxMedium(size).drawText(context.getMatrices(), text, x, y - 2, alpha);
         } else {
-            drawString(context, text, color, (int) x, (int) y, true);
+            context.drawText(mc.textRenderer, text, (int) x, (int) y, 0xFFFFFF, true);
         }
     }
 
     public static void drawCustomString(DrawContext context, String text, Color color, float x, float y, float size) {
         Style style = Style.EMPTY.withColor(TextColor.fromRgb(color.getRGB() & 0xFFFFFF));
         fluxMedium(size).drawText(context.getMatrices(), Text.literal(text).setStyle(style), x, y, color.getAlpha() / 255f);
+    }
+
+    public static float customTextWidth(Text text, float size) {
+        return fluxMedium(size).getTextWidth(text);
     }
 
     public static float customTextWidth(String text, float size) {
