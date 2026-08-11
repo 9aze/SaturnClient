@@ -73,7 +73,7 @@ public class CategoryPane implements IMinecraft {
         Color outlineColor = ColorModule.INSTANCE.clientColor.getValue();
         double totalHeight = titleHeight + (open ? getModuleAreaHeight() : 0);
 
-        RenderUtils.drawRoundedRect(context.getMatrices(), new Color(17, 17, 17), x, y, width, titleHeight, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 0f, 0f, 12);
+        RenderUtils.drawRoundedRect(context.getMatrices(), ClickGUIModule.INSTANCE.paneTitleBgColor.getValue(), x, y, width, titleHeight, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 0f, 0f, 12);
 
         int iconSize = 12;
         int iconX = (int) x + 4;
@@ -90,7 +90,7 @@ public class CategoryPane implements IMinecraft {
         if (open && !buttons.isEmpty()) {
             double areaHeight = getModuleAreaHeight();
 
-            RenderUtils.drawRoundedRect(context.getMatrices(), new Color(17, 17, 17), x, y + titleHeight, width, areaHeight, 0f, 0f, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 12);
+            RenderUtils.drawRoundedRect(context.getMatrices(), ClickGUIModule.INSTANCE.paneBgColor.getValue(), x, y + titleHeight, width, areaHeight, 0f, 0f, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 12);
 
             double buttonY = y + titleHeight + 3;
             for (PaneButton button : buttons) {

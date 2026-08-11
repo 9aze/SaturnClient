@@ -64,6 +64,8 @@ public class ElementButton implements IMinecraft, PaneButton {
             double settingsY = y + titleHeight;
 
             for (ModuleSetting<?> setting : elementSettings) {
+                if (!setting.isVisible()) continue;
+
                 setting.setPosition(x, settingsY);
                 setting.render(context, mouseX, mouseY, delta);
                 settingsY += setting.getHeight();
@@ -88,7 +90,7 @@ public class ElementButton implements IMinecraft, PaneButton {
                     textY = (int) y-3;
                 }
                 case ClickGUIModule.HoverEffect.Highlight -> {
-                    RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, titleHeight, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
+                    RenderUtils.drawRoundedRect(context.getMatrices(), ClickGUIModule.INSTANCE.highlightColor.getValue(), x, y, width, titleHeight, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
                 }
                 default -> {}
             }
@@ -105,6 +107,7 @@ public class ElementButton implements IMinecraft, PaneButton {
 
         if (open) {
             for (ModuleSetting<?> setting : elementSettings) {
+                if (!setting.isVisible()) continue;
                 if (setting.isHovering(mouseX, mouseY)) {
                     return setting.getSetting().getDescription();
                 }
@@ -119,6 +122,8 @@ public class ElementButton implements IMinecraft, PaneButton {
         if (open) {
             boolean handled = false;
             for (ModuleSetting<?> setting : elementSettings) {
+                if (!setting.isVisible()) continue;
+
                 if (!handled && setting.isHovering(mouseX, mouseY)) {
                     setting.mouseClicked((int) mouseX, (int) mouseY, button);
                     handled = true;
@@ -143,6 +148,8 @@ public class ElementButton implements IMinecraft, PaneButton {
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
         if (open) {
             for (ModuleSetting<?> setting : elementSettings) {
+                if (!setting.isVisible()) continue;
+
                 if (setting instanceof StringSettingComponent stringSetting) {
                     stringSetting.keyPressed(keyCode, scanCode, modifiers);
                 } else if (setting instanceof ColorSettingComponent colorSetting) {
@@ -156,6 +163,8 @@ public class ElementButton implements IMinecraft, PaneButton {
     public void charTyped(char chr, int modifiers) {
         if (open) {
             for (ModuleSetting<?> setting : elementSettings) {
+                if (!setting.isVisible()) continue;
+
                 if (setting instanceof StringSettingComponent stringSetting) {
                     stringSetting.charTyped(chr, modifiers);
                 } else if (setting instanceof ColorSettingComponent colorSetting) {
@@ -169,6 +178,7 @@ public class ElementButton implements IMinecraft, PaneButton {
     public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         if (open) {
             for (ModuleSetting<?> setting : elementSettings) {
+                if (!setting.isVisible()) continue;
                 setting.mouseDragged(mouseX, mouseY, button);
             }
         }
@@ -178,6 +188,7 @@ public class ElementButton implements IMinecraft, PaneButton {
     public void mouseReleased(double mouseX, double mouseY, int button) {
         if (open) {
             for (ModuleSetting<?> setting : elementSettings) {
+                if (!setting.isVisible()) continue;
                 setting.mouseReleased(mouseX, mouseY, button);
             }
         }

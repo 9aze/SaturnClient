@@ -213,7 +213,7 @@ public class ColorSettingComponent extends ModuleSetting<ColorSetting> {
             switch (ClickGUIModule.INSTANCE.hoverEffect.getValue()) {
                 case ClickGUIModule.HoverEffect.Right -> textX = (int) (x+6);
                 case ClickGUIModule.HoverEffect.Up -> textY = (int) ((y + 0.5f + (rowHeight() / 2) - (RenderUtils.customFontHeight(LABEL_SIZE) / 2)) - 2);
-                case ClickGUIModule.HoverEffect.Highlight -> RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, rowHeight(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
+                case ClickGUIModule.HoverEffect.Highlight -> RenderUtils.drawRoundedRect(context.getMatrices(), ClickGUIModule.INSTANCE.highlightColor.getValue(), x, y, width, rowHeight(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
                 default -> {}
             }
         }
@@ -228,7 +228,7 @@ public class ColorSettingComponent extends ModuleSetting<ColorSetting> {
         RenderUtils.drawRoundedRect(context.getMatrices(), current, previewX, previewY, previewWidth, previewHeight, 2f, 2f, 2f, 2f, 12);
         RenderUtils.drawRoundedOutline(context.getMatrices(), new Color(0, 0, 0, 120), previewX, previewY, previewWidth, previewHeight, 2f, 2f, 2f, 2f, 1f, 12f);
 
-        if (!expanded) return;
+        if (!expanded || !setting.isVisible()) return;
 
         layoutFields();
 

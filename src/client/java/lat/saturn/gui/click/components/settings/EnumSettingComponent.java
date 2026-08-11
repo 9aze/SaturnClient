@@ -29,7 +29,7 @@ public class EnumSettingComponent extends ModuleSetting {
             switch (ClickGUIModule.INSTANCE.hoverEffect.getValue()) {
                 case ClickGUIModule.HoverEffect.Right -> textX = (int) (x+6);
                 case ClickGUIModule.HoverEffect.Up -> textY = (int)(y + 0.5f + (height / 2) - (RenderUtils.customFontHeight(11) / 2)) - 2;
-                case ClickGUIModule.HoverEffect.Highlight -> RenderUtils.drawRoundedRect(context.getMatrices(), new Color(255, 255, 255, 50), x, y, width, height, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
+                case ClickGUIModule.HoverEffect.Highlight -> RenderUtils.drawRoundedRect(context.getMatrices(), ClickGUIModule.INSTANCE.highlightColor.getValue(), x, y, width, height, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 12);
                 default -> {}
             }
         }

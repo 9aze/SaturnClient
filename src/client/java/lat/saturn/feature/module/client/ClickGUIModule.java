@@ -40,8 +40,15 @@ public class ClickGUIModule extends Module {
     public IntSetting categoryRadius = new IntSetting("Category Radius", "Radius of category pane", 2, 0, 30);
     public IntSetting moduleRadius = new IntSetting("Module Radius", "Radius of module button", 2, 0, 30);
     public ColorSetting bgColor = new ColorSetting("Bg Color", "Color of the background", new Color(0, 0, 0, 120));
+    public ColorSetting paneBgColor = new ColorSetting("Pane Bg", "Color of the category pane background", new Color(17,17,17,255) ,true, true, false,true, false);
+    public ColorSetting paneTitleBgColor = new ColorSetting("Pane Title Bg", "Color of the category pane title background", new Color(17,17,17,255), true, true, false, true, false);
+
+
+
     public EnumSetting<TooltipPosition> tooltipPosition = new EnumSetting<>("Tooltip Position", "Position of tooltips", TooltipPosition.BottomLeft);
     public EnumSetting<HoverEffect> hoverEffect = new EnumSetting<>("Hover Effect", "Hover effect on the module buttons", HoverEffect.Right);
+    public ColorSetting highlightColor = new ColorSetting("Highlight Color", "The color of the highlight effects overlay", new Color(255, 255, 255, 50), true, true, false, true, false).visible(() -> hoverEffect.getValue() == HoverEffect.Highlight);
+
 
 
     @Override
