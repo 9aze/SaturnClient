@@ -17,6 +17,7 @@ public class ElementFrame {
     }
 
     public void render(DrawContext context, int mouseX, int mouseY) {
+        if(!element.isToggled()) return;
         RenderUtils.drawRoundedOutline(
                 context.getMatrices(),
                 Color.WHITE,
@@ -29,6 +30,8 @@ public class ElementFrame {
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if(!element.isToggled()) return false;
+
         if(button != 0) return false;
         double x = element.getScreenX();
         double y = element.getScreenY();
@@ -42,6 +45,8 @@ public class ElementFrame {
     }
 
     public boolean mouseDragged(double mouseX, double mouseY, int button) {
+        if(!element.isToggled()) return false;
+
         if(!dragging || button != 0) return false;
         int screenWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
         int screenHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
@@ -55,6 +60,8 @@ public class ElementFrame {
     }
 
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if(!element.isToggled()) return false;
+
         if(button != 0) return false;
         boolean wasDragging = dragging;
         dragging = false;
