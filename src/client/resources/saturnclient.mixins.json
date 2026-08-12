@@ -13,7 +13,11 @@
     "game.EntityVelocityUpdateS2CPacketAccessor",
     "net.BlockedServersMixin",
     "game.ClientPacketListenerMixin",
-    "input.KeyboardMixin"
+    "input.KeyboardMixin",
+    "accessor.AccessorWorldTimeUpdateS2CPacket",
+    "game.ClientConnectionMixin",
+    "render.LightmapTextureManagerMixin",
+    "accessor.AccessorClientWorld"
   ],
   "injectors": {
     "defaultRequire": 1
