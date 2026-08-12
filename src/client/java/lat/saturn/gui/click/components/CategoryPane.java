@@ -13,6 +13,8 @@ import lat.saturn.gui.click.ToolTip;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
+import java.util.Comparator;
+import java.util.List;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -36,7 +38,11 @@ public class CategoryPane implements IMinecraft {
         this.icon = Identifier.of("saturnclient", "icons/" + category.getIcon());
 
         double moduleY = y + titleHeight + 3;
-        for (Module module : Managers.MODULE_MANAGER.getByCategory(category)) {
+
+        List<Module> modules = new ArrayList<>(Managers.MODULE_MANAGER.getByCategory(category));
+        modules.sort(Comparator.comparing(Module::getName, String.CASE_INSENSITIVE_ORDER));
+
+        for (Module module : modules) {
             ModuleButton button = new ModuleButton(module, x + 2, moduleY, width - 4);
             buttons.add(button);
             moduleY += button.getHeight() + 2;
@@ -51,7 +57,11 @@ public class CategoryPane implements IMinecraft {
         this.icon = Identifier.of("saturnclient", "icons/" + category.getIcon());
 
         double elementY = y + titleHeight + 3;
-        for (Element element : Managers.ELEMENT_MANAGER.getByCategory(category)) {
+
+        List<Element> elements = new ArrayList<>(Managers.ELEMENT_MANAGER.getByCategory(category));
+        elements.sort(Comparator.comparing(Element::getName, String.CASE_INSENSITIVE_ORDER));
+
+        for (Element element : elements) {
             ElementButton button = new ElementButton(element, x + 2, elementY, width - 4);
             buttons.add(button);
             elementY += button.getHeight() + 2;
