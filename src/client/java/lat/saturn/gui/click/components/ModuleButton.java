@@ -78,7 +78,8 @@ public class ModuleButton implements IMinecraft, PaneButton {
 
             height = settingsY - y + 3;
 
-            RenderUtils.drawRoundedOutline(context.getMatrices(), ColorModule.INSTANCE.clientColor.getValue(), x+1, y+1, width-2, height-2, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 1.0f, 12.0f);
+            if(ClickGUIModule.INSTANCE.moduleBorders.getValue())
+                RenderUtils.drawRoundedOutline(context.getMatrices(), ClickGUIModule.INSTANCE.moduleBorderColor.getValue(), x+1, y+1, width-2, height-2, ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), ClickGUIModule.INSTANCE.moduleRadius.getValue(), 1.0f, 12.0f);
         }
 
         String text = module.getName();

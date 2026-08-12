@@ -43,7 +43,11 @@ public class ClickGUIModule extends Module {
     public ColorSetting paneBgColor = new ColorSetting("Pane Bg", "Color of the category pane background", new Color(17,17,17,255) ,true, true, false,true, false);
     public ColorSetting paneTitleBgColor = new ColorSetting("Pane Title Bg", "Color of the category pane title background", new Color(17,17,17,255), true, true, false, true, false);
 
+    public BoolSetting categoryBorders = new BoolSetting("Category Borders", "Renders borders around the category panes", true);
+    public ColorSetting categoryBorderColor = new ColorSetting("Category Border Color", "Color of the category borders", new Color(0,0,0), true, true, false, true, true).visible(() -> categoryBorders.getValue());
 
+    public BoolSetting moduleBorders = new BoolSetting("Module Borders", "Renders borders around the module when opened", true);
+    public ColorSetting moduleBorderColor = new ColorSetting("Module Border Color", "Color of the module borders", new Color(0,0,0), true, true, false, true, true).visible(() -> moduleBorders.getValue());
 
     public EnumSetting<TooltipPosition> tooltipPosition = new EnumSetting<>("Tooltip Position", "Position of tooltips", TooltipPosition.BottomLeft);
     public EnumSetting<HoverEffect> hoverEffect = new EnumSetting<>("Hover Effect", "Hover effect on the module buttons", HoverEffect.Right);

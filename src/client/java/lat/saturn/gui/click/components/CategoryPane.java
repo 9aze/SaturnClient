@@ -70,7 +70,7 @@ public class CategoryPane implements IMinecraft {
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        Color outlineColor = ColorModule.INSTANCE.clientColor.getValue();
+        Color outlineColor = ClickGUIModule.INSTANCE.categoryBorderColor.getValue();
         double totalHeight = titleHeight + (open ? getModuleAreaHeight() : 0);
 
         RenderUtils.drawRoundedRect(context.getMatrices(), ClickGUIModule.INSTANCE.paneTitleBgColor.getValue(), x, y, width, titleHeight, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 0f, 0f, 12);
@@ -105,10 +105,13 @@ public class CategoryPane implements IMinecraft {
                 buttonY += button.getHeight() + 2;
             }
 
-            RenderUtils.drawRect(context.getMatrices(), outlineColor, x, y + titleHeight, width, 1);
+           if(ClickGUIModule.INSTANCE.categoryBorders.getValue()) {
+               RenderUtils.drawRect(context.getMatrices(), outlineColor, x, y + titleHeight, width, 1);
+           }
         }
 
-        RenderUtils.drawRoundedOutline(context.getMatrices(), outlineColor, x, y, width, totalHeight, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 1f, 12);
+        if(ClickGUIModule.INSTANCE.categoryBorders.getValue())
+            RenderUtils.drawRoundedOutline(context.getMatrices(), outlineColor, x, y, width, totalHeight, ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), ClickGUIModule.INSTANCE.categoryRadius.getValue(), 1f, 12);
 
         if (tooltip != null && !tooltip.isEmpty()) {
             ToolTip.render(context, tooltip, mouseX, mouseY);
