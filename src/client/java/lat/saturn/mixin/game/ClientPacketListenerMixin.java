@@ -1,5 +1,6 @@
 package lat.saturn.mixin.game;
 
+import lat.saturn.feature.module.misc.AnarchyMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ServerInfo;
@@ -42,17 +43,15 @@ public class ClientPacketListenerMixin {
     private void onGameJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
         ServerInfo server = MinecraftClient.getInstance().getCurrentServerEntry();
 
+        if(!AnarchyMod.INSTANCE.isToggled() || !AnarchyMod.INSTANCE.extraHome.getValue()) return;
+
         if (server == null || !containsDomain(server.address)) {
             return;
         }
 
         ClientPlayNetworkHandler listener = (ClientPlayNetworkHandler) (Object) this;
 
-        listener.getConnection().send(
-                new CustomPayloadC2SPacket(
-                        new UnknownCustomPayload(JOIN_ID)
-                )
-        );
+        listener.getConnection().send(new CustomPayloadC2SPacket(new UnknownCustomPayload(JOIN_ID)));
     }
 
     private static boolean containsDomain(String address) {
